@@ -35,12 +35,31 @@ const QUOTES = [
   { text: "The journey of a thousand miles begins with one step.", author: "Lao Tzu" },
 ];
 
+// URL publik API seperti yang dilihat pemanggil: Vercel mengakhiri TLS di
+// edge lalu meneruskan ke fungsi lewat HTTP biasa, jadi c.req.url berskema
+// http://... — padahal URL publiknya https://... Probe vAPI menolak
+// penawaran yang resource.url-nya tidak cocok dengan URL yang di-probe,
+// jadi hormati header x-forwarded-proto / x-forwarded-host dari Vercel.
+function publicOrigin(c) {
+  const u = new URL(c.req.url);
+  const proto =
+    c.req.header("x-forwarded-proto") || u.protocol.replace(":", "");
+  const host =
+    c.req.header("x-forwarded-host") || c.req.header("host") || u.host;
+  return `${proto}://${host}`;
+}
+
+function publicUrl(c) {
+  const u = new URL(c.req.url);
+  return `${publicOrigin(c)}${u.pathname}${u.search}`;
+}
+
 function buildOffer(c) {
   return {
     x402Version: 2,
     error: "Payment required",
     resource: {
-      url: c.req.url,
+      url: publicUrl(c),
       description: "Satu quote acak + nama penulisnya.",
       mimeType: "application/json",
       serviceName: "Jason Quotes API",
@@ -89,6 +108,7 @@ app.get("/openapi.json", (c) =>
       description:
         "Satu quote acak per panggilan, dibayar 0.005 USDC lewat x402 di Base.",
     },
+    servers: [{ url: publicOrigin(c) }],
     paths: {
       "/quote": {
         get: {

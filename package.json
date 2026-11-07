@@ -1,0 +1,1 @@
+{"dependencies":{"@hono/node-server":"^1.0.0","hono":"^4.0.0"},"description":"API berbayar x402 (0.005 USDC/panggilan) untuk listing vAPI Call — quest 'List your API on vAPI' (500 pts).","name":"jason-quotes-api","scripts":{"start":"node index.mjs"},"type":"module","version":"1.0.0"}

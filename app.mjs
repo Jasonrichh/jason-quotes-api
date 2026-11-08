@@ -5,7 +5,7 @@ const app = new Hono();
 
 // ---- Konfigurasi pembayaran (x402 di Base) ----
 // Sesuai contoh resmi vAPI: docs.vapinetwork.ai/call/sell-on-call/list-your-api
-const FACILITATOR = "https://x402.org/facilitator"; // verifikasi + settlement pembayaran
+const FACILITATOR = "https://facilitator.payai.network"; // verifikasi + settlement pembayaran (x402.org tidak mendukung Base mainnet)
 const USDC_BASE = "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913"; // USDC resmi di Base
 const NETWORK = "eip155:8453"; // Base
 const PRICE_AMOUNT = "5000"; // 0.005 USDC per panggilan (USDC punya 6 desimal)

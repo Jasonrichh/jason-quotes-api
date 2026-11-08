@@ -11,6 +11,7 @@ const NETWORK = "eip155:8453"; // Base
 const PRICE_AMOUNT = "5000"; // 0.005 USDC per panggilan (USDC punya 6 desimal)
 const PAYOUT_WALLET =
   process.env.PAYOUT_WALLET || "0x0000000000000000000000000000000000000000";
+  // Payout wallet: owner MetaMask (wizard path)
 
 if (PAYOUT_WALLET === "0x0000000000000000000000000000000000000000") {
   console.warn(
